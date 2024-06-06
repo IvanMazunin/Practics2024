@@ -1,9 +1,10 @@
 package crud.first.data;
 
-import org.springframework.data.repository.CrudRepository;
 
-import crud.first.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends CrudRepository<User, Long>{
+import crud.first.model.User;
+
+public interface UserRepository extends JpaRepository<User, Long>{
 
 }

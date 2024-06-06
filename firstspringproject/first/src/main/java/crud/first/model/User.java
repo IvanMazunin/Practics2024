@@ -1,4 +1,4 @@
-package crud.first;
+package crud.first.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,12 +1,14 @@
 package crud.first.controllers;
 
-import java.util.Optional;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,73 +17,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import crud.first.User;
-import crud.first.data.UserRepository;
+import crud.first.service.UserService;
+import crud.first.service.dto.UserDto;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(path = "/api", produces = "application/json")
+@RequiredArgsConstructor
 public class UserController {
+    private final UserService userService;
 
-	private UserRepository userRepo;
-
-	public UserController(UserRepository userRepo){
-		this.userRepo = userRepo;
-	}
-
-	@GetMapping("/users")
-	public Iterable<User> personAll() {
-		return userRepo.findAll();
-	}
-
-	@GetMapping("/users/{id}")
-	@ResponseStatus(HttpStatus.OK)
-	public Optional<User> personById(@PathVariable("id") Long id) {
-		return userRepo.findById(id);
-	}
-
-	@PostMapping(path = "/user", consumes="application/json")
-	@ResponseStatus(HttpStatus.CREATED)
-    public User postUser(@RequestBody User user) {
-		return userRepo.save(user);
+    @GetMapping("/users")
+    public List<UserDto> allUsers() {
+        return userService.findAll();
     }
 
-	@PutMapping(path="/users/{id}", consumes="application/json")
-	public User putUser(
-	@PathVariable("id") Long id,
-	@RequestBody User user) {
-	user.setId(id);
-	return userRepo.save(user);
-	}
+    @GetMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id){
+        return ResponseEntity.ok().body(userService.findById(id));
+    }
 
-	@PatchMapping(path="/users/{id}", consumes="application/json")
-	public User patchUser(@PathVariable("id") Long id,
-	@RequestBody User patch) {
-		User user = userRepo.findById(id).get();
+    @PostMapping(path = "/users", consumes="application/json")
+    public ResponseEntity<UserDto> createUser( @RequestBody UserDto user) throws URISyntaxException {
+        UserDto result = userService.save(user);
+        return ResponseEntity.created(new URI("/api/users/" + result.getId()))
+                .body(result);
+    }
 
-		if (patch.getFirstName() != null) {
-			user.setFirstName(patch.getFirstName());
-		}
+    @PutMapping(path="/users/{id}", consumes="application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<UserDto> updateUser( @PathVariable Long id, @RequestBody UserDto user) {
+        return ResponseEntity.ok().body(userService.updateById(id, user));
+    }
 
-		if (patch.getLastName() != null) {
-			user.setLastName(patch.getLastName());
-		}
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 
-		if (patch.getEmail() != null) {
-			user.setEmail(patch.getEmail());
-		}
-
-		if (patch.getPosition() != null) {
-			user.setPosition(patch.getPosition());
-		}
-
-		return userRepo.save(user);
-	}
-
-	@DeleteMapping("/users/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteUser(@PathVariable("id") Long id) {
-		try {
-			userRepo.deleteById(id);
-			} catch (EmptyResultDataAccessException e) {}
-	}
+	@ExceptionHandler(RuntimeException.class)
+    ResponseEntity<Error> userNotFound(RuntimeException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error(exception.getMessage()));
+    }
 }
