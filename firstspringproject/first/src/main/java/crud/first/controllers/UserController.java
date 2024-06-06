@@ -28,7 +28,7 @@ public class UserController {
 		this.userRepo = userRepo;
 	}
 
-	@GetMapping("/{users}")
+	@GetMapping("/users")
 	public Iterable<User> personAll() {
 		return userRepo.findAll();
 	}
