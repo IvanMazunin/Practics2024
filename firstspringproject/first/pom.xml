@@ -11,6 +11,11 @@
 	<groupId>crud</groupId>
 	<artifactId>first</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<module>client1</module>
+		<module>client2</module>
+	</modules>
 	<name>first</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

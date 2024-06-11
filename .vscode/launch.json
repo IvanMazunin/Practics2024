@@ -9,6 +9,27 @@
 			"projectName": "first",
 			"args": "",
 			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-Main<client2>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "crud.Main",
+			"projectName": "client2",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env",
+			"vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=58640 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=client2"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-Main<client1>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "crud.Main",
+			"projectName": "client1",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }
