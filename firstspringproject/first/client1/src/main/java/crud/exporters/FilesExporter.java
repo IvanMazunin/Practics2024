@@ -22,7 +22,7 @@ import lombok.Data;
 @Data
 public class FilesExporter {
 
-	File currDir = new File("..\\..\\..\\..\\..\\..\\export");
+	File currDir = new File("../export");
 	String path;
 
 	public FilesExporter(){

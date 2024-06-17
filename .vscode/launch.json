@@ -30,6 +30,26 @@
 			"projectName": "client1",
 			"args": "",
 			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-UserApplication<client2>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "crud.UserApplication",
+			"projectName": "client2",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
+		},
+		{
+			"type": "java",
+			"name": "Spring Boot-ExportApplication<client1>",
+			"request": "launch",
+			"cwd": "${workspaceFolder}",
+			"mainClass": "crud.ExportApplication",
+			"projectName": "client1",
+			"args": "",
+			"envFile": "${workspaceFolder}/.env"
 		}
 	]
 }
