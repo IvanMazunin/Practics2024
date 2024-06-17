@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan("crud.model")
 @EnableJpaRepositories("crud.data")
-public class Main {
+public class UserApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Main.class, args);
+		SpringApplication.run(UserApplication.class, args);
 	}
 
 }

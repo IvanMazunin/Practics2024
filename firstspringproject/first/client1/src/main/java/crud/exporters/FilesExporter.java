@@ -21,6 +21,16 @@ import lombok.Data;
 
 @Data
 public class FilesExporter {
+
+	File currDir = new File("..\\..\\..\\..\\..\\..\\export");
+	String path;
+
+	public FilesExporter(){
+		if(!currDir.exists())
+			currDir.mkdir();
+		path = currDir.getAbsolutePath();
+	}
+
 	public String setFileName(String extension, String prefix){
 		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
 		String timeStamp = dateFormat.format(new Date());
@@ -37,9 +47,7 @@ public class FilesExporter {
 
 		writeHeaderLine();
 		writeDataLine(list);
-
-		File currDir = new File("C:\\Users\\mazun\\Desktop\\Practics\\practics2024\\Practics2024\\firstspringproject\\first\\export");
-		String path = currDir.getAbsolutePath();
+		
 		System.out.println(path);
 		String fileLocation = path.substring(0, path.length()) + "\\" + fileName;
 
